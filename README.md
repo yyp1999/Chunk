@@ -6,7 +6,7 @@
 
 Guided by diverse phenotypic data types (binary, linear, ordinal, survival), **Chunk** identifies phenotype-associated LRIs from large-scale bulk cohorts and maps them to the single-cell or spatial level to uncover CCI events associated with disease-related phenotypic variation.
 
-![Overview](https://github.com/yyp1999/Chunk/blob/main/Chunk.png)
+![Overview](https://github.com/yyp1999/Chunk/blob/main/Chunk.tif)
 
 ---
 

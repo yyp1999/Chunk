@@ -796,7 +796,7 @@ def getCCcomm(adata, gene1, gene2, L_threshold=20, R_threshold=20, marked_col='p
     
     plt.show()
 
-def getPatternDistribution(W, labels, phenotype_interval, savefig=None):
+def getPatternDistribution(W, labels, phenotype_interval, savefig=None, fontsize=12):
     """
     Plot violin plots to show the distribution of each feature in the W matrix across binary phenotype samples.
 
@@ -805,6 +805,7 @@ def getPatternDistribution(W, labels, phenotype_interval, savefig=None):
     labels (list): Category labels, default is ['Normal', 'Tumor'].
     phenotype_interval (dict): Boundary points for different types of samples.
     savefig (str): Path to save the generated image, default is None (do not save).
+    fontsize (int): Font size for titles and labels, default is 10.
     """
     num_features = W.shape[1]  
     num_subplots = int(np.ceil(np.sqrt(num_features)))  
@@ -814,6 +815,7 @@ def getPatternDistribution(W, labels, phenotype_interval, savefig=None):
     fig, axes = plt.subplots(num_rows, num_cols, figsize=(15, 15))  
     axes = axes.flatten() 
     plot_color=["#F56867","#FEB915","#C798EE","#7495D3","#3A84E6","#DB4C6C","#F9BD3F","#DAB370","#877F6C","#268785"]
+
     for i in range(num_features):
         ax = axes[i]
         p = []
@@ -821,10 +823,11 @@ def getPatternDistribution(W, labels, phenotype_interval, savefig=None):
             p.append(W[:, i][phenotype_interval[j+1][0]:phenotype_interval[j+1][1]+1])
         #sns.violinplot(ax=ax, data=p, palette=plot_color[:len(phenotype_interval)])
         sns.violinplot(ax=ax, data=p, palette='Set2')
-        ax.set_title(f"Pattern {i + 1}")
+        ax.set_title(f"Pattern {i + 1}", fontsize=fontsize)
         ax.set_xticks(list(range(len(phenotype_interval))))
-        ax.set_xticklabels(labels)
-        ax.set_ylabel("Values")
+        ax.set_xticklabels(labels, fontsize=fontsize)
+        ax.set_ylabel("Values", fontsize=fontsize)
+        ax.tick_params(axis='y', labelsize=fontsize)
 
     for j in range(i + 1, len(axes)):
         fig.delaxes(axes[j])
@@ -1014,7 +1017,12 @@ def plot_Spatiallr(
     plt.colorbar(scatter, ax=ax2, label='LR Activity', shrink=0.8) 
     ax2.set_title(f"{lr_pair[0]}-{lr_pair[1]} Activity")
     ax2.invert_yaxis()
-    
+
+    for ax in [ax1, ax2] if dual_plot else [ax2]:
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax.set_xlabel('')
+        ax.set_ylabel('')
     plt.tight_layout()
     return fig
 
@@ -1221,7 +1229,7 @@ def cci_interacting_heatmap(adata,
                              pvalues,
                              source_cells,
                              target_cells,
-                             min_means=3,
+                             min_means=3, #Only ligand–receptor (LR) pairs with a total expression greater than min_means across the involved cell pairs are displayed.
                              nodecolor_dict=None,
                              ax=None,
                              figsize=(2,6),

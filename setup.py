@@ -3,7 +3,7 @@ from setuptools import find_namespace_packages
 
 setup(
     name='chunk-py',
-    version='1.0.4',
+    version='1.0.6',
     author='Youpeng Yang',
     author_email='yypeng1999@gmail.com', 
     url='https://github.com/yyp1999/Chunk', 
@@ -24,7 +24,10 @@ setup(
         'qnorm',
         'torch',
         'numba',
-        'anndata'
+        'anndata',
+        'openchord',
+        'adjustText',
+        'PyComplexHeatmap',
     ], 
     classifiers=[
         'Development Status :: 5 - Production/Stable',  

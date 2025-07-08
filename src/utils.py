@@ -1149,7 +1149,7 @@ def CCIdetect(
     
     start_time = time.time()
     shuffled_means_list = []
-    for i in tqdm(range(iterations), desc="Running randomization analysis"):
+    for i in tqdm(range(iterations), desc="Running CCI detect analysis"):
         shuffled_meta = meta.copy()
         shuffled_meta['cell_type'] = np.random.permutation(shuffled_meta['cell_type'])
         
